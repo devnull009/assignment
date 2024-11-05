@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clean workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('Clone repository') {
+            steps {
+                git 'https://github.com/igor-baiborodine/vaadin-demo-bakery-app.git'
+            }
+        }
+        stage('Perform testing') {
+            steps {
+                sh '''mvn compile verify'''
+            }
+        }
+        stage('Build docker image') {
+            steps {
+                sh '''docker build --rm -t bakery-app .'''
+            }
+        }
+        stage('Run docker image') {
+            steps {
+                sh '''docker run --hostname bakeryapp --name bakery-app -d bakery-app'''
+            }
+        }
+    }
+}

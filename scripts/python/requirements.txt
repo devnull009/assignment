@@ -1,0 +1,4 @@
+jenkinsapi==0.3.13
+pytz==2022.1
+requests==2.25.1
+six==1.16.0
